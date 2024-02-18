@@ -1,15 +1,34 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Measurement;
 
 use Illuminate\Http\Request;
 
 class echartController extends Controller
 {
-    public function water(){
-        $viewData = [];
-        $viewData["title"] = "Consumo de agua";
+
+
+    public function water()
+    {
+        $viewData["title"] = "Consumo de agua"; // Título de la página
+        $sensorId = 2; // Reemplaza esto con el ID del sensor que deseas
+        $startDate = now()->subWeek()->startOfWeek(); // Fecha de inicio es el inicio de la semana pasada
+        $endDate = now()->subWeek()->endOfWeek(); // Fecha de fin es el final de la semana pasada
+
+        $consumo = Measurement::where('id_sensor', 2)
+            ->where('fecha', '2023-02-14 23:00:00')
+            ->value('consumo');
+
+
+        $fin = Measurement::where('id_sensor', 2)
+            ->where('fecha', '2023-02-15 23:00:00')
+            ->value('consumo');
+            
+        $viewData["semanaAnterior"] = $fin - $consumo; // Consumo de agua de la semana pasada
 
         return view('charts.water')->with("viewData", $viewData);
     }
 }
+
+
