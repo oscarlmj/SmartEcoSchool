@@ -12,50 +12,48 @@
 
 
 <script type="text/javascript">
-      // Initialize the echarts instance based on the prepared dom
-      var myChart = echarts.init(document.getElementById('week'));
+
+      let totalAnterior = <?php echo json_encode($viewData["semanaAnterior"]); ?>;      // Initialize the echarts instance based on the prepared dom
+      let actual = 10000*100/totalAnterior;
+      let color = actual >= 80 ? 'red' : (actual > 50 ? 'orange' : 'rgb(145,204,117)');      
+      let myChart = echarts.init(document.getElementById('week'));
 
       // Specify the configuration items and data for the chart
-      var option = gaugeData = [
-  {
-    value: 20,
-    name: 'Perfect',
-    title: {
-      offsetCenter: ['0%', '-30%']
-    },
-    detail: {
-      valueAnimation: true,
-      offsetCenter: ['0%', '-20%']
-    }
-  },
-  {
-    value: 40,
-    name: 'Good',
-    title: {
-      offsetCenter: ['0%', '0%']
-    },
-    detail: {
-      valueAnimation: true,
-      offsetCenter: ['0%', '10%']
-    }
-  },
-  {
-    value: 60,
-    name: 'Commonly',
-    title: {
-      offsetCenter: ['0%', '30%']
-    },
-    detail: {
-      valueAnimation: true,
-      offsetCenter: ['0%', '40%']
-    }
-  }
-];
+      let option = gaugeData = [
+      {
+        value: actual,
+        name: 'Semana actual',
+        title: {
+          offsetCenter: ['0%', '-30%']
+        },
+        detail: {
+          valueAnimation: true,
+          offsetCenter: ['0%', '-20%'],
+          formatter: function(value) {
+            return value.toFixed(2) + '%';
+          },
+          //Cambiar el color del % dependiendo del valor.
+            color: color
+        }
+      },
+      {
+        value: totalAnterior,
+        name: 'Semana anterior',
+        title: {
+          offsetCenter: ['0%', '0%']
+        },
+        detail: {
+          valueAnimation: true,
+          offsetCenter: ['0%', '10%'],
+          formatter: '{value} m3'
+        }
+      }
+    ];
 option = {
   series: [
     {
       type: 'gauge',
-      startAngle: 90,
+      startAngle: 100,
       endAngle: -270,
       pointer: {
         show: false
@@ -66,13 +64,13 @@ option = {
         roundCap: true,
         clip: false,
         itemStyle: {
-          borderWidth: 1,
-          borderColor: '#464646'
+          borderWidth: 0,
+          borderColor: '#464646',
         }
       },
       axisLine: {
         lineStyle: {
-          width: 40
+          width: 50
         }
       },
       splitLine: {
@@ -85,21 +83,20 @@ option = {
       },
       axisLabel: {
         show: false,
-        distance: 50
+        distance: 20
       },
       data: gaugeData,
       title: {
-        fontSize: 14
+        fontSize: 16
       },
       detail: {
-        width: 50,
+        width: 85,
         height: 14,
-        fontSize: 14,
+        fontSize: 18,
         color: 'inherit',
         borderColor: 'inherit',
         borderRadius: 20,
         borderWidth: 1,
-        formatter: '{value}%'
       }
     }
   ]
@@ -110,6 +107,5 @@ option = {
 
     </script>
   </div>
-
 </div>
 @endsection
