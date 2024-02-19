@@ -7,7 +7,7 @@
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
 
     <div id="main">
-      <div id="week" style="width: 100%;height:500px;"></div>
+      <div id="week" style="width: 100%; height: 600px;"></div>
     </div>
 
 
@@ -17,6 +17,13 @@
 
       // Specify the configuration items and data for the chart
       let option = {
+        legend: {
+          backgroundColor: 'gray',
+          label: {
+            show: true,
+            formatter: 'Consumo de agua excesivo' 
+          }
+        },
         xAxis: {
           data: ['SEMANA ACTUAL', 'SEMANA ANTERIOR']
         },
@@ -24,7 +31,7 @@
         series: [
           {
             data: [
-              8500,
+              4500,
               {
                 value: totalAnterior,
                 label: {
@@ -34,6 +41,21 @@
                 }
               }
             ],
+            itemStyle: {
+                color: function(params) {
+                    if (params.data > 8000) {
+                        return 'rgb(231,76,60)';
+                    } else if (params.data < 8000 && params.data > 6000) {
+                        return 'rgb(243,156,18)';
+                    }
+                    else if (params.data  <6000 ) {
+                        return 'rgb(46,204,113)';
+                    }
+                    else{
+                        return 'skyblue';
+                    }
+                }
+            },
             type: 'bar',
             stack: 'x',
             label: {
@@ -46,7 +68,7 @@
           },
           {
             data: [
-              9000,
+              6250,
               {
                 label: {
                   show: true,
@@ -55,6 +77,18 @@
                 }
               }
             ],
+            itemStyle: {
+                color: function(params) {
+                    if (params.data >= 8000) {
+                        return 'rgb(231,76,60)';
+                    } else if (params.data < 8000 && params.data > 6000) {
+                        return 'rgb(243,156,18)';
+                    }
+                    else{
+                        return 'rgb(46,204,113)';
+                    }
+                }
+            },
             type: 'bar',
             stack: 'x',
             label: {
@@ -76,6 +110,18 @@
                 }
               }
             ],
+            itemStyle: {
+                color: function(params) {
+                    if (params.data >= 8000) {
+                        return 'rgb(231,76,60)';
+                    } else if (params.data < 8000 && params.data > 6000) {
+                        return 'rgb(243,156,18)';
+                    }
+                    else{
+                        return 'rgb(46,204,113)';
+                    }
+                }
+            },
             type: 'bar',
             stack: 'x',
             label: {
@@ -97,6 +143,18 @@
                 }
               }
             ],
+            itemStyle: {
+                color: function(params) {
+                    if (params.data >= 8000) {
+                        return 'rgb(231,76,60)';
+                    } else if (params.data < 8000 && params.data > 6000) {
+                        return 'rgb(243,156,18)';
+                    }
+                    else{
+                        return 'rgb(46,204,113)';
+                    }
+                }
+            },
             type: 'bar',
             stack: 'x',
             label: {
@@ -109,7 +167,7 @@
           },
           {
             data: [
-              10000,
+              5899,
               {
                 label: {
                   show: true,
@@ -118,6 +176,18 @@
                 }
               }
             ],
+            itemStyle: {
+                color: function(params) {
+                    if (params.data >= 8000) {
+                        return 'rgb(231,76,60)';
+                    } else if (params.data < 8000 && params.data > 6000) {
+                        return 'rgb(245,176,66)';
+                    }
+                      else{
+                        return 'rgb(46,204,113)';
+                    }
+                }
+            },
             type: 'bar',
             stack: 'x',
             label: {
@@ -140,6 +210,18 @@
                 }
               }
             ],
+            itemStyle: {
+                color: function(params) {
+                    if (params.data >= 8000) {
+                        return 'rgb(231,76,60)';
+                    } else if (params.data < 8000 && params.data > 6000) {
+                        return 'rgb(243,156,18)';
+                    }
+                    else{
+                        return 'rgb(46,204,113)';
+                    }
+                }
+            },
             type: 'bar',
             stack: 'x',
             label: {
@@ -152,7 +234,7 @@
           },
           {
             data: [
-              4250,
+              6500,
               {
                 label: {
                   show: true,
@@ -161,6 +243,18 @@
                 }
               }
             ],
+            itemStyle: {
+                color: function(params) {
+                    if (params.data >= 8000) {
+                        return 'rgb(231,76,60)';
+                    } else if (params.data < 8000 && params.data > 6000) {
+                        return 'rgb(243,156,18)';
+                    }
+                    else{
+                        return 'rgb(46,204,113)';
+                    }
+                }
+            },
             type: 'bar',
             stack: 'x',
             label: {
@@ -175,6 +269,7 @@
           // Rest of the series...
           
         ]
+        
       };
 
       // Display the chart using the configuration items and data just specified.
