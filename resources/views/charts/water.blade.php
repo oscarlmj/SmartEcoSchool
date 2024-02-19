@@ -14,7 +14,7 @@
 <script type="text/javascript">
 
       let totalAnterior = <?php echo json_encode($viewData["semanaAnterior"]); ?>;      // Initialize the echarts instance based on the prepared dom
-      let actual = 10000*100/totalAnterior;
+      let actual = 50000*100/totalAnterior;
       let color = actual >= 80 ? 'red' : (actual > 50 ? 'orange' : 'rgb(145,204,117)');      
       let myChart = echarts.init(document.getElementById('week'));
 
