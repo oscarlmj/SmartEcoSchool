@@ -13,8 +13,6 @@
 
     <script type="text/javascript">
       let totalAnterior = <?php echo json_encode($viewData["semanaAnterior"]); ?>; // Initialize the echarts instance based on the prepared dom
-      let actual = 100000 * 100 / totalAnterior; // Valores de prueba
-      let color = actual >= 80 ? 'red' : (actual > 50 ? 'orange' : 'rgb(145,204,117)');
       let myChart = echarts.init(document.getElementById('week'));
 
       // Specify the configuration items and data for the chart
@@ -24,98 +22,155 @@
         },
         yAxis: {},
         series: [{
-            data: [7500, {
-              value: totalAnterior,
-              label: 'TOTAL'
-            }],
+            data: [
+              8500,
+              {
+                value: totalAnterior,
+                label: {
+                  show: true,
+                  position: 'inside',
+                  formatter: totalAnterior + ' m3'
+                }
+              }
+            ],
             type: 'bar',
             stack: 'x',
             label: {
               show: true,
               position: 'inside',
               formatter: function(params) {
-                return 'Lunes' + params.dataIndex;
+                return 'Lunes' + ' ' + params.value + ' m3';
               }
             }
           },
           {
-            data: [8600],
+            data: [
+              9000,
+              {
+                label: {
+                  show: true,
+                  position: 'inside',
+                  formatter: totalAnterior + ' m3'
+                }
+              }
+            ],
             type: 'bar',
             stack: 'x',
             label: {
               show: true,
               position: 'inside',
               formatter: function(params) {
-                let days = ['Martes'];
-                return days[params.dataIndex];
+                return 'Martes' + ' ' + params.value + ' m3';
               }
             }
           },
           {
-            data: [9500],
+            data: [
+              8000,
+              {
+                label: {
+                  show: true,
+                  position: 'inside',
+                  formatter: totalAnterior + ' m3'
+                }
+              }
+            ],
             type: 'bar',
             stack: 'x',
             label: {
               show: true,
               position: 'inside',
               formatter: function(params) {
-                let days = ['Miercoles'];
-                return days[params.dataIndex];
+                return 'Miercoles' + ' ' + params.value + ' m3';
               }
             }
           },
           {
-            data: [8300],
+            data: [
+              9000,
+              {
+                label: {
+                  show: true,
+                  position: 'inside',
+                  formatter: totalAnterior + ' m3'
+                }
+              }
+            ],
             type: 'bar',
             stack: 'x',
             label: {
               show: true,
               position: 'inside',
               formatter: function(params) {
-                let days = ['Jueves'];
-                return days[params.dataIndex];
+                return 'Jueves' + ' ' + params.value + ' m3';
               }
             }
           },
           {
-            data: [6800],
+            data: [
+              10000,
+              {
+                label: {
+                  show: true,
+                  position: 'inside',
+                  formatter: totalAnterior + ' m3'
+                }
+              }
+            ],
             type: 'bar',
             stack: 'x',
             label: {
               show: true,
               position: 'inside',
               formatter: function(params) {
-                let days = ['Viernes'];
-                return days[params.dataIndex];
+
+                return 'Viernes' + ' ' + params.value + ' m3';
               }
             }
           },
           {
-            data: [8800],
+            data: [
+              3000,
+              {
+                label: {
+                  show: true,
+                  position: 'inside',
+                  formatter: totalAnterior + ' m3'
+                }
+              }
+            ],
             type: 'bar',
             stack: 'x',
             label: {
               show: true,
               position: 'inside',
               formatter: function(params) {
-                let days = ['Sabado'];
-                return days[params.dataIndex];
+                return 'Sabado' + ' ' + params.value + ' m3';
               }
             }
           },
           {
-            data: [4800],
+            data: [
+              4250,
+              {
+                label: {
+                  show: true,
+                  position: 'inside',
+                  formatter: totalAnterior + ' m3'
+                }
+              }
+            ],
             type: 'bar',
             stack: 'x',
             label: {
               show: true,
               position: 'inside',
               formatter: function(params) {
-                let days = ['Domingo'];
-                return days[params.dataIndex];
+
+                return 'Domingo' + ' ' + params.value + ' m3';
               }
             }
-          },
+          }
         ]
       };
 
