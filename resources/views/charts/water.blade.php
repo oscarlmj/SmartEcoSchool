@@ -14,22 +14,25 @@
     <script type="text/javascript">
       let totalAnterior = <?php echo json_encode($viewData["semanaAnterior"]); ?>; // Initialize the echarts instance based on the prepared dom
       let myChart = echarts.init(document.getElementById('week'));
-
+      <?php
+      define("COLOR_HIGH", 'rgb(231,76,60)');
+      define("COLOR_MEDIUM", 'rgb(243,156,18)');
+      define("COLOR_LOW", 'rgb(46,204,113)');
+      ?>
       // Specify the configuration items and data for the chart
       let option = {
         legend: {
           backgroundColor: 'gray',
           label: {
             show: true,
-            formatter: 'Consumo de agua excesivo' 
+            formatter: 'Consumo de agua excesivo'
           }
         },
         xAxis: {
           data: ['SEMANA ACTUAL', 'SEMANA ANTERIOR']
         },
         yAxis: {},
-        series: [
-          {
+        series: [{
             data: [
               4500,
               {
@@ -42,19 +45,17 @@
               }
             ],
             itemStyle: {
-                color: function(params) {
-                    if (params.data > 8000) {
-                        return 'rgb(231,76,60)';
-                    } else if (params.data < 8000 && params.data > 6000) {
-                        return 'rgb(243,156,18)';
-                    }
-                    else if (params.data  <6000 ) {
-                        return 'rgb(46,204,113)';
-                    }
-                    else{
-                        return 'skyblue';
-                    }
+              color: function(params) {
+                if (params.data >= 8000) {
+                  return '<?= COLOR_HIGH ?>';
+                } else if (params.data > 6000) {
+                  return '<?= COLOR_MEDIUM ?>';
+                } else if (params.data < 6000) {
+                  return '<?= COLOR_LOW ?>';
+                } else {
+                  return 'skyblue';
                 }
+              }
             },
             type: 'bar',
             stack: 'x',
@@ -78,16 +79,15 @@
               }
             ],
             itemStyle: {
-                color: function(params) {
-                    if (params.data >= 8000) {
-                        return 'rgb(231,76,60)';
-                    } else if (params.data < 8000 && params.data > 6000) {
-                        return 'rgb(243,156,18)';
-                    }
-                    else{
-                        return 'rgb(46,204,113)';
-                    }
+              color: function(params) {
+                if (params.data >= 8000) {
+                  return '<?= COLOR_HIGH ?>';
+                } else if (params.data > 6000) {
+                  return '<?= COLOR_MEDIUM ?>';
+                } else {
+                  return '<?= COLOR_LOW ?>';
                 }
+              }
             },
             type: 'bar',
             stack: 'x',
@@ -111,16 +111,15 @@
               }
             ],
             itemStyle: {
-                color: function(params) {
-                    if (params.data >= 8000) {
-                        return 'rgb(231,76,60)';
-                    } else if (params.data < 8000 && params.data > 6000) {
-                        return 'rgb(243,156,18)';
-                    }
-                    else{
-                        return 'rgb(46,204,113)';
-                    }
+              color: function(params) {
+                if (params.data >= 8000) {
+                  return '<?= COLOR_HIGH ?>';
+                } else if (params.data > 6000) {
+                  return '<?= COLOR_MEDIUM ?>';
+                } else {
+                  return '<?= COLOR_LOW ?>';
                 }
+              }
             },
             type: 'bar',
             stack: 'x',
@@ -144,16 +143,15 @@
               }
             ],
             itemStyle: {
-                color: function(params) {
-                    if (params.data >= 8000) {
-                        return 'rgb(231,76,60)';
-                    } else if (params.data < 8000 && params.data > 6000) {
-                        return 'rgb(243,156,18)';
-                    }
-                    else{
-                        return 'rgb(46,204,113)';
-                    }
+              color: function(params) {
+                if (params.data >= 8000) {
+                  return '<?= COLOR_HIGH ?>';
+                } else if (params.data > 6000) {
+                  return '<?= COLOR_MEDIUM ?>';
+                } else {
+                  return '<?= COLOR_LOW ?>';
                 }
+              }
             },
             type: 'bar',
             stack: 'x',
@@ -177,16 +175,15 @@
               }
             ],
             itemStyle: {
-                color: function(params) {
-                    if (params.data >= 8000) {
-                        return 'rgb(231,76,60)';
-                    } else if (params.data < 8000 && params.data > 6000) {
-                        return 'rgb(245,176,66)';
-                    }
-                      else{
-                        return 'rgb(46,204,113)';
-                    }
+              color: function(params) {
+                if (params.data >= 8000) {
+                  return '<?= COLOR_HIGH ?>';
+                } else if (params.data > 6000) {
+                  return 'rgb(245,176,66)';
+                } else {
+                  return '<?= COLOR_LOW ?>';
                 }
+              }
             },
             type: 'bar',
             stack: 'x',
@@ -194,7 +191,7 @@
               show: true,
               position: 'inside',
               formatter: function(params) {
-                
+
                 return 'Viernes' + ' ' + params.value + ' m3';
               }
             }
@@ -211,16 +208,15 @@
               }
             ],
             itemStyle: {
-                color: function(params) {
-                    if (params.data >= 8000) {
-                        return 'rgb(231,76,60)';
-                    } else if (params.data < 8000 && params.data > 6000) {
-                        return 'rgb(243,156,18)';
-                    }
-                    else{
-                        return 'rgb(46,204,113)';
-                    }
+              color: function(params) {
+                if (params.data >= 8000) {
+                  return '<?= COLOR_HIGH ?>';
+                } else if (params.data > 6000) {
+                  return '<?= COLOR_MEDIUM ?>';
+                } else {
+                  return '<?= COLOR_LOW ?>';
                 }
+              }
             },
             type: 'bar',
             stack: 'x',
@@ -244,16 +240,15 @@
               }
             ],
             itemStyle: {
-                color: function(params) {
-                    if (params.data >= 8000) {
-                        return 'rgb(231,76,60)';
-                    } else if (params.data < 8000 && params.data > 6000) {
-                        return 'rgb(243,156,18)';
-                    }
-                    else{
-                        return 'rgb(46,204,113)';
-                    }
+              color: function(params) {
+                if (params.data >= 8000) {
+                  return '<?= COLOR_HIGH ?>';
+                } else if (params.data > 6000) {
+                  return '<?= COLOR_MEDIUM ?>';
+                } else {
+                  return '<?= COLOR_LOW ?>';
                 }
+              }
             },
             type: 'bar',
             stack: 'x',
@@ -261,15 +256,15 @@
               show: true,
               position: 'inside',
               formatter: function(params) {
-                
+
                 return 'Domingo' + ' ' + params.value + ' m3';
               }
             }
           }
           // Rest of the series...
-          
+
         ]
-        
+
       };
 
       // Display the chart using the configuration items and data just specified.
