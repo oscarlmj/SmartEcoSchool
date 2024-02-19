@@ -14,91 +14,108 @@
 <script type="text/javascript">
 
       let totalAnterior = <?php echo json_encode($viewData["semanaAnterior"]); ?>;      // Initialize the echarts instance based on the prepared dom
-      let actual = 10000*100/totalAnterior;
+      let actual = 100000*100/totalAnterior; // Valores de prueba
       let color = actual >= 80 ? 'red' : (actual > 50 ? 'orange' : 'rgb(145,204,117)');      
       let myChart = echarts.init(document.getElementById('week'));
 
       // Specify the configuration items and data for the chart
-      let option = gaugeData = [
-      {
-        value: actual,
-        name: 'Semana actual',
-        title: {
-          offsetCenter: ['0%', '-30%']
-        },
-        detail: {
-          valueAnimation: true,
-          offsetCenter: ['0%', '-20%'],
-          formatter: function(value) {
-            return value.toFixed(2) + '%';
-          },
-          //Cambiar el color del % dependiendo del valor.
-            color: color
-        }
-      },
-      {
-        value: totalAnterior,
-        name: 'Semana anterior',
-        title: {
-          offsetCenter: ['0%', '0%']
-        },
-        detail: {
-          valueAnimation: true,
-          offsetCenter: ['0%', '10%'],
-          formatter: '{value} m3'
-        }
-      }
-    ];
-option = {
+      let option = {
+  xAxis: {
+    data: ['SEMANA ACTUAL', 'SEMANA ANTERIOR']
+  },
+  yAxis: {},
   series: [
     {
-      type: 'gauge',
-      startAngle: 100,
-      endAngle: -270,
-      pointer: {
-        show: false
-      },
-      progress: {
+      data: [7500, { value: 56000, label: 'TOTAL' }],
+      type: 'bar',
+      stack: 'x',
+      label: {
         show: true,
-        overlap: false,
-        roundCap: true,
-        clip: false,
-        itemStyle: {
-          borderWidth: 0,
-          borderColor: '#464646',
+        position: 'inside',
+        formatter: function(params) {
+          let days = ['Lunes'];
+          return days[params.dataIndex];
         }
-      },
-      axisLine: {
-        lineStyle: {
-          width: 50
-        }
-      },
-      splitLine: {
-        show: false,
-        distance: 0,
-        length: 10
-      },
-      axisTick: {
-        show: false
-      },
-      axisLabel: {
-        show: false,
-        distance: 20
-      },
-      data: gaugeData,
-      title: {
-        fontSize: 16
-      },
-      detail: {
-        width: 85,
-        height: 14,
-        fontSize: 18,
-        color: 'inherit',
-        borderColor: 'inherit',
-        borderRadius: 20,
-        borderWidth: 1,
       }
-    }
+    },
+    {
+      data: [8600],
+      type: 'bar',
+      stack: 'x',
+      label: {
+        show: true,
+        position: 'inside',
+        formatter: function(params) {
+          let days = ['Martes'];
+          return days[params.dataIndex];
+        }
+      }
+    },
+    {
+      data: [9500],
+      type: 'bar',
+      stack: 'x',
+      label: {
+        show: true,
+        position: 'inside',
+        formatter: function(params) {
+          let days = ['Miercoles'];
+          return days[params.dataIndex];
+        }
+      }
+    },
+    {
+      data: [8300],
+      type: 'bar',
+      stack: 'x',
+      label: {
+        show: true,
+        position: 'inside',
+        formatter: function(params) {
+          let days = ['Jueves'];
+          return days[params.dataIndex];
+        }
+      }
+    },
+    {
+      data: [6800],
+      type: 'bar',
+      stack: 'x',
+      label: {
+        show: true,
+        position: 'inside',
+        formatter: function(params) {
+          let days = ['Viernes'];
+          return days[params.dataIndex];
+        }
+      }
+    },
+    {
+      data: [8800],
+      type: 'bar',
+      stack: 'x',
+      label: {
+        show: true,
+        position: 'inside',
+        formatter: function(params) {
+          let days = ['Sabado'];
+          return days[params.dataIndex];
+        }
+      }
+    },
+    {
+      data: [4800],
+      type: 'bar',
+      stack: 'x',
+      label: {
+        show: true,
+        position: 'inside',
+        formatter: function(params) {
+          let days = ['Domingo'];
+          return days[params.dataIndex];
+        }
+      }
+    },
   ]
 };
 
