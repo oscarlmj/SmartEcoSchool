@@ -13,11 +13,11 @@
 
     <script type="text/javascript">
       let totalAnterior = <?php echo json_encode($viewData["semanaAnterior"]); ?>;
-      let lastInput = <?php echo json_encode($viewData["lastInput"]); ?>;
       let myChart = echarts.init(document.getElementById('week'));
       
-      let week = [lastInput, '3000', '9585'];
-
+      
+      let week = <?php echo json_encode($viewData["week"]); ?>;
+      
       let rojo = '#FF4646';
       let naranja = '#FFA44F';
       let verde = '#67DF5F';

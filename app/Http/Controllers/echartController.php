@@ -8,41 +8,49 @@ use Illuminate\Http\Request;
 class echartController extends Controller
 {    
 
-
     public function water()
     {
         $viewData["title"] = "Consumo de agua"; // Título de la página
-        $sensorId = 2; // Reemplaza esto con el ID del sensor que deseas
-        $startDate = now()->subWeek()->startOfWeek(); // Fecha de inicio es el inicio de la semana pasada
-        $endDate = now()->subWeek()->endOfWeek(); // Fecha de fin es el final de la semana pasada
+        $viewData["week"] = [];
         
-        $inicio = Measurement::where('id_sensor', 2)
-            ->where('fecha', '2023-02-14 23:00:00')
-            ->value('consumo');
+        
+        // Recuperar el primer y último registro de la semana pasada para calcular el consumo de agua.
+            $primerRegistroSemana = Measurement::where('id_sensor', 2)
+                ->whereDate('fecha', now()->subWeek()->startOfWeek())
+                ->orderBy('fecha', 'asc')
+                ->latest()
+                ->value('consumo');
+
+            $ultimoRegistroSemana = Measurement::where('id_sensor', 2)
+                ->whereDate('fecha', now()->subWeek()->endOfWeek())
+                ->orderBy('fecha', 'desc')
+                ->latest()
+                ->value('consumo');
+
+            $viewData["semanaAnterior"] = $ultimoRegistroSemana - $primerRegistroSemana;
 
 
-        $fin = Measurement::where('id_sensor', 2)
-            ->where('fecha', '2023-02-15 23:00:00')
-            ->value('consumo');
-
-            
-        $viewData["semanaAnterior"] = $fin - $inicio; // Consumo de agua de la semana pasada
-
-        // Perform action every 55 minutes
-        $interval = 55 * 60; // 55 minutes in seconds
-        $timer = time() % $interval;
-        if ($timer === 0) {
-            
-        }
-
-        $lastInput = Measurement::where('id_sensor', 2)
+        //Recuperar el último consumo de agua de ayer.
+        $lastInputYesterday = Measurement::where('id_sensor', 2)
+            ->whereDate('fecha', now()->subDay())
             ->orderBy('fecha', 'desc')
-            ->limit(2)
-            ->pluck('consumo')
-            ->toArray();
+            ->latest()
+            ->value('consumo');
 
-        $viewData["lastInput"] = $lastInput[0] - $lastInput[1];
+        $lastInputToday = Measurement::where('id_sensor', 2)
+            ->whereDate('fecha', now())
+            ->orderBy('fecha', 'desc')
+            ->latest()
+            ->value('consumo');
 
+            
+            
+           
+        if ($lastInputYesterday && $lastInputToday) {
+            $currentDayOfWeek = date('N') - 1;
+            $viewData["week"][$currentDayOfWeek] = $lastInputToday - $lastInputYesterday;
+        }
+        
 
         return view('charts.water')->with("viewData", $viewData);
     }
@@ -58,11 +66,10 @@ class echartController extends Controller
             ->where('fecha', '2023-02-14 23:00:00')
             ->value('consumo');
 
-
         $fin = Measurement::where('id_sensor', 1)
             ->where('fecha', '2023-02-15 23:00:00')
             ->value('consumo');
-            
+
         $viewData["semanaAnterior"] = $fin - $inicio; // Consumo de agua de la semana pasada
 
         return view('charts.electrical')->with("viewData", $viewData);
