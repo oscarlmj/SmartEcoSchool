@@ -14,27 +14,20 @@
     <script type="text/javascript">
       let totalAnterior = <?php echo json_encode($viewData["semanaAnterior"]); ?>; // Initialize the echarts instance based on the prepared dom
       let myChart = echarts.init(document.getElementById('week'));
-      <?php
-      define("COLOR_HIGH", 'rgb(231,76,60)');
-      define("COLOR_MEDIUM", 'rgb(243,156,18)');
-      define("COLOR_LOW", 'rgb(46,204,113)');
-      ?>
+      let rojo = 'rgb(231,76,60)';
+      let amarillo = 'rgb(243,156,18)';
+      let verde = 'rgb(46,204,113)';
+
       // Specify the configuration items and data for the chart
       let option = {
-        legend: {
-          backgroundColor: 'gray',
-          label: {
-            show: true,
-            formatter: 'Consumo de agua excesivo'
-          }
-        },
+        
         xAxis: {
           data: ['SEMANA ACTUAL', 'SEMANA ANTERIOR']
         },
         yAxis: {},
         series: [{
             data: [
-              4500,
+              8500,
               {
                 value: totalAnterior,
                 label: {
@@ -47,11 +40,11 @@
             itemStyle: {
               color: function(params) {
                 if (params.data >= 8000) {
-                  return '<?= COLOR_HIGH ?>';
+                  return rojo;
                 } else if (params.data > 6000) {
-                  return '<?= COLOR_MEDIUM ?>';
+                  return amarillo;
                 } else if (params.data < 6000) {
-                  return '<?= COLOR_LOW ?>';
+                  return verde;
                 } else {
                   return 'skyblue';
                 }
@@ -81,11 +74,11 @@
             itemStyle: {
               color: function(params) {
                 if (params.data >= 8000) {
-                  return '<?= COLOR_HIGH ?>';
+                  return rojo;
                 } else if (params.data > 6000) {
-                  return '<?= COLOR_MEDIUM ?>';
+                  return amarillo;
                 } else {
-                  return '<?= COLOR_LOW ?>';
+                  return verde;
                 }
               }
             },
@@ -113,11 +106,11 @@
             itemStyle: {
               color: function(params) {
                 if (params.data >= 8000) {
-                  return '<?= COLOR_HIGH ?>';
+                  return rojo;
                 } else if (params.data > 6000) {
-                  return '<?= COLOR_MEDIUM ?>';
+                  return amarillo;
                 } else {
-                  return '<?= COLOR_LOW ?>';
+                  return verde;
                 }
               }
             },
@@ -145,11 +138,11 @@
             itemStyle: {
               color: function(params) {
                 if (params.data >= 8000) {
-                  return '<?= COLOR_HIGH ?>';
+                  return rojo;
                 } else if (params.data > 6000) {
-                  return '<?= COLOR_MEDIUM ?>';
+                  return amarillo;
                 } else {
-                  return '<?= COLOR_LOW ?>';
+                  return verde;
                 }
               }
             },
@@ -177,11 +170,11 @@
             itemStyle: {
               color: function(params) {
                 if (params.data >= 8000) {
-                  return '<?= COLOR_HIGH ?>';
+                  return rojo;
                 } else if (params.data > 6000) {
-                  return 'rgb(245,176,66)';
+                  return amarillo;
                 } else {
-                  return '<?= COLOR_LOW ?>';
+                  return verde;
                 }
               }
             },
@@ -210,11 +203,11 @@
             itemStyle: {
               color: function(params) {
                 if (params.data >= 8000) {
-                  return '<?= COLOR_HIGH ?>';
+                  return rojo;
                 } else if (params.data > 6000) {
-                  return '<?= COLOR_MEDIUM ?>';
+                  return amarillo;
                 } else {
-                  return '<?= COLOR_LOW ?>';
+                  return verde;
                 }
               }
             },
@@ -242,11 +235,11 @@
             itemStyle: {
               color: function(params) {
                 if (params.data >= 8000) {
-                  return '<?= COLOR_HIGH ?>';
+                  return rojo;
                 } else if (params.data > 6000) {
-                  return '<?= COLOR_MEDIUM ?>';
+                  return amarillo;
                 } else {
-                  return '<?= COLOR_LOW ?>';
+                  return verde;
                 }
               }
             },
