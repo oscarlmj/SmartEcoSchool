@@ -15,10 +15,12 @@
       let totalAnterior = <?php echo json_encode($viewData["semanaAnterior"]); ?>;
       let lastInput = <?php echo json_encode($viewData["lastInput"]); ?>;
       let myChart = echarts.init(document.getElementById('week'));
+      
       let week = [lastInput, '3000', '9585'];
-      let rojo = 'rgb(231,76,60)';
-      let amarillo = 'rgb(243,156,18)';
-      let verde = 'rgb(46,204,113)';
+
+      let rojo = '#FF4646';
+      let naranja = '#FFA44F';
+      let verde = '#67DF5F';
 
       // Specify the configuration items and data for the chart
       let option = {
@@ -44,7 +46,7 @@
                 if (params.data >= 8000) {
                   return rojo;
                 } else if (params.data > 6000) {
-                  return amarillo;
+                  return naranja;
                 } else if (params.data < 6000) {
                   return verde;
                 } else {
@@ -78,7 +80,7 @@
                 if (params.data >= 8000) {
                   return rojo;
                 } else if (params.data > 6000) {
-                  return amarillo;
+                  return naranja;
                 } else {
                   return verde;
                 }
@@ -110,7 +112,7 @@
                 if (params.data >= 8000) {
                   return rojo;
                 } else if (params.data > 6000) {
-                  return amarillo;
+                  return naranja;
                 } else {
                   return verde;
                 }
@@ -142,7 +144,7 @@
                 if (params.data >= 8000) {
                   return rojo;
                 } else if (params.data > 6000) {
-                  return amarillo;
+                  return naranja;
                 } else {
                   return verde;
                 }
@@ -174,7 +176,7 @@
                 if (params.data >= 8000) {
                   return rojo;
                 } else if (params.data > 6000) {
-                  return amarillo;
+                  return naranja;
                 } else {
                   return verde;
                 }
@@ -207,7 +209,7 @@
                 if (params.data >= 8000) {
                   return rojo;
                 } else if (params.data > 6000) {
-                  return amarillo;
+                  return naranja;
                 } else {
                   return verde;
                 }
@@ -239,7 +241,7 @@
                 if (params.data >= 8000) {
                   return rojo;
                 } else if (params.data > 6000) {
-                  return amarillo;
+                  return naranja;
                 } else {
                   return verde;
                 }
@@ -257,7 +259,7 @@
             }
           }
           // Rest of the series...
-
+          
         ]
 
       };
