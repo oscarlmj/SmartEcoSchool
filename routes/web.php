@@ -18,3 +18,4 @@ Route::get('/', function () {
 });
 
 Route::get('/water', 'App\Http\Controllers\echartController@water')->name("charts.water");
+Route::get('/electrical', 'App\Http\Controllers\echartController@electrical')->name("charts.electrical");
