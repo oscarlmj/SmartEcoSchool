@@ -16,7 +16,7 @@ class echartController extends Controller
         $startDate = now()->subWeek()->startOfWeek(); // Fecha de inicio es el inicio de la semana pasada
         $endDate = now()->subWeek()->endOfWeek(); // Fecha de fin es el final de la semana pasada
 
-        $consumo = Measurement::where('id_sensor', 2)
+        $inicio = Measurement::where('id_sensor', 2)
             ->where('fecha', '2023-02-14 23:00:00')
             ->value('consumo');
 
@@ -25,10 +25,8 @@ class echartController extends Controller
             ->where('fecha', '2023-02-15 23:00:00')
             ->value('consumo');
             
-        $viewData["semanaAnterior"] = $fin - $consumo; // Consumo de agua de la semana pasada
+        $viewData["semanaAnterior"] = $fin - $inicio; // Consumo de agua de la semana pasada
 
         return view('charts.water')->with("viewData", $viewData);
     }
 }
-
-
