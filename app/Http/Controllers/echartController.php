@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 use App\Models\Measurement;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
+use Carbon\Carbon;
+use Exception;
 
 class echartController extends Controller
 {    
@@ -11,8 +14,7 @@ class echartController extends Controller
     public function water()
     {
         $viewData["title"] = "Consumo de agua"; // Título de la página
-        $viewData["week"] = [];
-        
+        $viewData["week"] = []; // Array para almacenar el consumo de agua de cada día de la semana actual
         
         // Recuperar el primer y último registro de la semana pasada para calcular el consumo de agua.
             $primerRegistroSemana = Measurement::where('id_sensor', 2)
@@ -29,7 +31,6 @@ class echartController extends Controller
 
             $viewData["semanaAnterior"] = $ultimoRegistroSemana - $primerRegistroSemana;
 
-
         //Recuperar el último consumo de agua de ayer.
         $lastInputYesterday = Measurement::where('id_sensor', 2)
             ->whereDate('fecha', now()->subDay())
@@ -37,20 +38,33 @@ class echartController extends Controller
             ->latest()
             ->value('consumo');
 
+        //Recuperar el último consumo de agua de hoy.
         $lastInputToday = Measurement::where('id_sensor', 2)
             ->whereDate('fecha', now())
             ->orderBy('fecha', 'desc')
             ->latest()
             ->value('consumo');
 
-            
-            
-           
-        if ($lastInputYesterday && $lastInputToday) {
-            $currentDayOfWeek = date('N') - 1;
-            $viewData["week"][$currentDayOfWeek] = $lastInputToday - $lastInputYesterday;
-        }
+        //Calcular el consumo de agua de hoy.
+        $consumo = $lastInputToday - $lastInputYesterday;
+
+        // Almacenar el consumo de agua de hoy en un archivo de texto.
+        $lastModified = Carbon::createFromTimestamp(File::lastModified(Storage::disk('public')->path('consumption.txt')));
         
+        if(!$lastModified->isToday()) {
+            $file = Storage::disk('public')->get('consumption.txt');
+            $file = $file . $consumo . ";";
+            Storage::disk('public')->put('consumption.txt', $file);
+        } else {
+            $contenido = Storage::disk('public')->get('consumption.txt', $consumo . ";");
+            $content = explode(";",$contenido);
+            array_pop($content);
+            array_push($content, $consumo);
+            $contenido = implode(";", $content);
+
+        }
+
+        $viewData["week"] = explode(";", Storage::disk('public')->get('consumption.txt'));
 
         return view('charts.water')->with("viewData", $viewData);
     }
