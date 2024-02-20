@@ -12,9 +12,10 @@
 
 
     <script type="text/javascript">
-      let totalAnterior = <?php echo json_encode($viewData["semanaAnterior"]); ?>; // Initialize the echarts instance based on the prepared dom
+      let totalAnterior = <?php echo json_encode($viewData["semanaAnterior"]); ?>;
+      let lastInput = <?php echo json_encode($viewData["lastInput"]); ?>;
       let myChart = echarts.init(document.getElementById('week'));
-      let week = ['2500', '3000','9585'];
+      let week = [lastInput, '3000', '9585'];
       let rojo = 'rgb(231,76,60)';
       let amarillo = 'rgb(243,156,18)';
       let verde = 'rgb(46,204,113)';
