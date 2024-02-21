@@ -11,22 +11,8 @@
 
 
     <script type="text/javascript">
-      let base = +new Date(2016, 9, 3);
-      let oneDay = 24 * 3600 * 1000;
-      let valueBase = Math.random() * 300;
-      let valueBase2 = Math.random() * 50;
-      let data = [];
-      let data2 = [];
-      for (var i = 1; i < 10; i++) {
-        var now = new Date((base += oneDay));
-        var dayStr = [now.getFullYear(), now.getMonth() + 1, now.getDate()].join('-');
-        valueBase = Math.round((Math.random() - 0.5) * 20 + valueBase);
-        valueBase <= 0 && (valueBase = Math.random() * 300);
-        data.push([dayStr, valueBase]);
-        valueBase2 = Math.round((Math.random() - 0.5) * 20 + valueBase2);
-        valueBase2 <= 0 && (valueBase2 = Math.random() * 50);
-        data2.push([dayStr, valueBase2]);
-      }
+      const chartData = <?php echo json_encode($viewData["data"]); ?>;
+
       let option = {
         title: {
           left: 'center',
@@ -34,7 +20,7 @@
         },
         legend: {
           top: 'bottom',
-          data: ['Intention']
+          data: ['Consumo Eléctrico']
         },
         tooltip: {
           triggerOn: 'none',
@@ -43,9 +29,9 @@
           }
         },
         xAxis: {
-          type: 'time',
+          type: 'category',
+          data: chartData.map(item => item[0]),
           axisPointer: {
-            value: '2016-10-7',
             snap: true,
             lineStyle: {
               color: '#7581BD',
@@ -54,7 +40,7 @@
             label: {
               show: true,
               formatter: function(params) {
-                return echarts.format.formatTime('yyyy-MM-dd', params.value);
+                return echarts.format.formatTime('HH:mm', params.value);
               },
               backgroundColor: '#7581BD'
             }
@@ -88,7 +74,7 @@
           throttle: 50
         }],
         series: [{
-            name: 'Fake Data',
+            name: 'Consumo Eléctrico',
             type: 'line',
             smooth: true,
             symbol: 'circle',
@@ -109,7 +95,7 @@
                 }
               ])
             },
-            data: data
+            data: chartData
           },
           {
             name: 'Fake Data',
@@ -133,13 +119,13 @@
                 }
               ])
             },
-            data: data2
+            data: chartData
           }
         ]
       };
 
       // Inicializar echarts instance con el elemento DOM
-      var myChart = echarts.init(document.getElementById('week'));
+      const myChart = echarts.init(document.getElementById('week'));
 
       // Display the chart using the configuration items and data just specified.
       myChart.setOption(option);
