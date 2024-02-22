@@ -4,7 +4,7 @@
 <div class="card">
     <div class="card-header">
         <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
-
+        Consumo eléctrico mensual
         <div id="main">
             <div id="month" style="width: 100%; height: 600px;"></div>
         </div>
@@ -15,14 +15,18 @@
             const chartNombreMesAnterior = <?php echo json_encode($viewData["nombreMesAnterior"]); ?>;
             const chartNombreMesActual = <?php echo json_encode($viewData["nombreMesActual"]); ?>;
 
+            setInterval(function() {
+
+                window.location.replace("http://localhost:8000/");
+                },  14000);
+
             let option = {
                 tooltip: {
                     trigger: 'item',
-
                 },
                 legend: {
                     top: '5%',
-                    left: 'center'
+                    left: 'center',
                 },
                 series: [{
                     type: 'pie',

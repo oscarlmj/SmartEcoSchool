@@ -16,6 +16,9 @@
                 let consumoSemanal = <?php echo json_encode($viewData['consumoSemanal']); ?>;
                 let myChart = echarts.init(document.getElementById('week'));
 
+                setInterval(function() {
+                window.location.replace("http://localhost:8000/watermonth");
+                },  14000);
 
                 let rojo = '#FF4646';
                 let naranja = '#FFA44F';

@@ -12,6 +12,10 @@
 
 
             <script type="text/javascript">
+
+                setInterval(function() {
+                    window.location.replace("http://localhost:8000/electrical");
+                },  14000);
                 let lastMonth = <?php echo json_encode($viewData['lastMonth']); ?>;
                 let currentMonth = <?php echo json_encode($viewData['currentMonth']); ?>;
 

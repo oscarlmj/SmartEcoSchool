@@ -16,6 +16,10 @@
       const chartNombreDiaAnterior = <?php echo json_encode($viewData["nombreDiaAnterior"]); ?>;
       const chartNombreDiaActual = <?php echo json_encode($viewData["nombreDiaActual"]); ?>;
 
+      setInterval(function() {
+                window.location.replace("http://localhost:8000/electricalmes");
+                },  14000);
+
       let option = {
         xAxis: {
           type: 'category',
@@ -36,7 +40,12 @@
               value:consumoElectricoHoy
             }
           ],
-          type: 'bar'
+          type: 'bar',
+          label: {
+                                show: true,
+                                position: 'inside',
+                                formatter: '{c} kw/h'
+                            }
         }]
       };
 
