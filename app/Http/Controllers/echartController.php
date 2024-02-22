@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Measurement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -9,7 +10,7 @@ use Carbon\Carbon;
 use Exception;
 
 class echartController extends Controller
-{    
+{
 
     public function water()
     {
