@@ -6,129 +6,71 @@
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
 
     <div id="main">
-      <div id="week" style="width: 100%; height: 600px;"></div>
+      <div id="dia" style="width: 100%; height: 600px;"></div>
     </div>
 
-
     <script type="text/javascript">
-      const chartData = <?php echo json_encode($viewData["data"]); ?>;
+      // Obtén los datos reales del controlador
+      const consumoElectricoAyer = <?php echo json_encode($viewData['consumoElectricoAyer']); ?>;
+      const consumoElectricoHoy = <?php echo json_encode($viewData['consumoElectricoHoy']); ?>;
+      const chartNombreDiaAnterior = <?php echo json_encode($viewData["nombreDiaAnterior"]); ?>;
+      const chartNombreDiaActual = <?php echo json_encode($viewData["nombreDiaActual"]); ?>;
 
       let option = {
-        title: {
-          left: 'center',
-          text: 'Consumo eléctrico'
-        },
-        legend: {
-          top: 'bottom',
-          data: ['Consumo Eléctrico']
-        },
-        tooltip: {
-          triggerOn: 'none',
-          position: function(pt) {
-            return [pt[0], 130];
-          }
-        },
         xAxis: {
           type: 'category',
-          data: chartData.map(item => item[0]),
-          axisPointer: {
-            snap: true,
-            lineStyle: {
-              color: '#7581BD',
-              width: 2
-            },
-            label: {
-              show: true,
-              formatter: function(params) {
-                return echarts.format.formatTime('HH:mm', params.value);
-              },
-              backgroundColor: '#7581BD'
-            }
-          },
-          splitLine: {
-            show: false
-          }
+          data: [chartNombreDiaAnterior, chartNombreDiaActual]
         },
         yAxis: {
-          type: 'value',
-          axisTick: {
-            inside: true
-          },
-          splitLine: {
-            show: false
-          },
-          axisLabel: {
-            inside: true,
-            formatter: '{value}\n'
-          },
-          z: 10
+          type: 'value'
         },
-        grid: {
-          top: 110,
-          left: 15,
-          right: 15,
-          height: 160
-        },
-        dataZoom: [{
-          type: 'inside',
-          throttle: 50
-        }],
         series: [{
-            name: 'Consumo Eléctrico',
-            type: 'line',
-            smooth: true,
-            symbol: 'circle',
-            symbolSize: 5,
-            sampling: 'average',
-            itemStyle: {
-              color: '#0770FF'
+          data: [
+            {
+              value:consumoElectricoAyer,
+              itemStyle: {
+                color: 'red'
+              }
             },
-            stack: 'a',
-            areaStyle: {
-              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                  offset: 0,
-                  color: 'rgba(58,77,233,0.8)'
-                },
-                {
-                  offset: 1,
-                  color: 'rgba(58,77,233,0.3)'
-                }
-              ])
-            },
-            data: chartData
-          },
-          {
-            name: 'Fake Data',
-            type: 'line',
-            smooth: true,
-            stack: 'a',
-            symbol: 'circle',
-            symbolSize: 5,
-            sampling: 'average',
-            itemStyle: {
-              color: '#F2597F'
-            },
-            areaStyle: {
-              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                  offset: 0,
-                  color: 'rgba(213,72,120,0.8)'
-                },
-                {
-                  offset: 1,
-                  color: 'rgba(213,72,120,0.3)'
-                }
-              ])
-            },
-            data: chartData
-          }
-        ]
+            {
+              value:consumoElectricoHoy
+            }
+          ],
+          type: 'bar'
+        }]
       };
 
-      // Inicializar echarts instance con el elemento DOM
-      const myChart = echarts.init(document.getElementById('week'));
+      // Inicializar la instancia de ECharts con el elemento DOM
+      const myChart = echarts.init(document.getElementById('dia'));
 
-      // Display the chart using the configuration items and data just specified.
+      // Mostrar el gráfico usando la configuración y los datos especificados.
       myChart.setOption(option);
+
+      // Definir la función de actualización en tiempo real (simulada)
+      function run() {
+        // Puedes reemplazar esta función con la lógica real de actualización en tiempo real
+        for (var i = 0; i < chartData.length; ++i) {
+          if (Math.random() > 0.9) {
+            chartData[i] += Math.round(Math.random() * 2000);
+          } else {
+            chartData[i] += Math.round(Math.random() * 200);
+          }
+        }
+
+        // Actualizar la serie 'Consumo Eléctrico' con los nuevos datos
+        myChart.setOption({
+          series: [{
+            type: 'bar',
+            data: chartData
+          }]
+        });
+      }
+
+      // Simular la actualización en tiempo real
+      setTimeout(function() {
+        run();
+      }, 0);
+      setInterval(run, 3000);
     </script>
   </div>
 </div>

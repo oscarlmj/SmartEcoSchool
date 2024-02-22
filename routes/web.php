@@ -19,3 +19,4 @@ Route::get('/water', 'App\Http\Controllers\echartController@waterWeek')->name("c
 Route::get('/watermonth', 'App\Http\Controllers\echartController@waterMonth')->name("charts.waterMonth");
 
 Route::get('/electrical', 'App\Http\Controllers\echartController@electrical')->name("charts.electrical");
+Route::get('/electricalMes', 'App\Http\Controllers\echartController@electricalMes')->name("charts.electricalMes");
