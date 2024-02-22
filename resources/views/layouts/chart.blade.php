@@ -14,13 +14,14 @@
   <link href="{{ asset('/css/app.css') }}" rel="stylesheet" />
 
   <!-- Marcador donde incluiremos el título de la página. El primer parámetro (title) contiene el identificador y el segundo (Tienda online) contiene el valor por defecto que se usará en caso de que no se le asigne ningún valor al marcador-->
-  <title>@yield('title', 'Tienda online')</title>   
+  <title class="text-center">@yield('title', 'Tienda online')</title>   
 
 </head>
 
 <body>
   <!-- header -->
-  <header class="masthead bg-primary text-white text-center py-4">
+
+  <header class="px-3 py-2 bg-dark text-white">
     <div class="container d-flex align-items-center flex-column">
       <h2>@yield('subtitle', 'Smart Eco School')</h2>
     </div>

@@ -13,9 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'App\Http\Controllers\indexController@index')->name("layouts.index");
 
-Route::get('/water', 'App\Http\Controllers\echartController@water')->name("charts.water");
+Route::get('/water', 'App\Http\Controllers\echartController@waterWeek')->name("charts.water");
+Route::get('/watermonth', 'App\Http\Controllers\echartController@waterMonth')->name("charts.waterMonth");
+
 Route::get('/electrical', 'App\Http\Controllers\echartController@electrical')->name("charts.electrical");

@@ -14,52 +14,97 @@
             <script type="text/javascript">
                 let lastMonth = <?php echo json_encode($viewData['lastMonth']); ?>;
                 let currentMonth = <?php echo json_encode($viewData['currentMonth']); ?>;
+
                 let myChart = echarts.init(document.getElementById('week'));
+
                 let lastMonthName = <?php echo json_encode($viewData['lastMonthName']); ?>;
                 let currentMonthName = <?php echo json_encode($viewData['currentMonthName']); ?>;
+
                 let rojo = '#FF4646';
                 let naranja = '#FFA44F';
                 let verde = '#67DF5F';
 
 
                 // Specify the configuration items and data for the chart
-                option = {
-                    xAxis: {
-                        type: 'category',
-                        data: [lastMonthName.toUpperCase(),currentMonthName.toUpperCase()]
-                    },
-                    yAxis: {
-                        type: 'value'
-                    },
-                    series: [
-                        {
-                            data: [
-                                {
-                                    value: lastMonth,
-                                    itemStyle: {
-                                        color: 'skyblue'
-                                    }
-                                },
-                                {
-                                    value: currentMonth,
-                                    itemStyle: {
-                                        color: '#67DF5F'
-                                    }
-                                }
-                            ],
-                            type: 'bar',
-                            showBackground: true,
-                            backgroundStyle: {
-                                color: 'rgba(180, 180, 180, 0.2)'
+            const gaugeData = [
+                    {
+                            value: lastMonth,
+                            name: lastMonthName.charAt(0).toUpperCase() + lastMonthName.slice(1),
+                            title: {
+                                    offsetCenter: ['0%', '-30%']
                             },
-                            label: {
-                                show: true,
-                                position: 'inside',
-                                formatter: '{c} m3'
+                            detail: {
+                                    valueAnimation: true,
+                                    offsetCenter: ['0%', '-20%'],
+                                    formatter: '{value}m3',
+                            },
+                            
+                    },
+                    {
+                            value: (currentMonth * 100 / lastMonth).toFixed(2),
+                            name: currentMonthName.charAt(0).toUpperCase() + currentMonthName.slice(1),
+                            title: {
+                                    offsetCenter: ['0%', '0%']
+                            },
+                            detail: {
+                                    valueAnimation: true,
+                                    offsetCenter: ['0%', '10%',],
+                                    formatter: '{value}%'
+                            },
+                    },
+            ];
+            option = {
+                series: [
+                    {
+                        type: 'gauge',
+                        startAngle: 90,
+                        endAngle: -275,
+                        pointer: {
+                            show: false
+                        },
+                        progress: {
+                            show: true,
+                            overlap: false,
+                            roundCap: true,
+                            clip: false,
+                            itemStyle: {
+                                borderWidth: 0,
+                                borderColor: '#464646'
                             }
+                        },
+                        axisLine: {
+                            lineStyle: {
+                                width: 40
+                            }
+                        },
+                        splitLine: {
+                            show: false,
+                            distance: 0,
+                            length: 10
+                        },
+                        axisTick: {
+                            show: false
+                        },
+                        axisLabel: {
+                            show: false,
+                            distance: 50
+                        },
+                        data: gaugeData,
+                        title: {
+                            fontSize: 14
+                        },
+                        detail: {
+                            width: 85,
+                            height: 14,
+                            fontSize: 14,
+                            color: 'inherit',
+                            borderColor: 'inherit',
+                            borderRadius: 20,
+                            borderWidth: 1,
                         }
-                    ]
-                };
+                    }
+                ]
+            };
 
                 // Display the chart using the configuration items and data just specified.
                 myChart.setOption(option);
