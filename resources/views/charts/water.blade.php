@@ -26,7 +26,7 @@
                 option = {
                     xAxis: {
                         type: 'category',
-                        data: ['Semana actual', 'Semana anterior']
+                        data: ['Semana anterior','Semana actual']
                     },
                     yAxis: {
                         type: 'value'
@@ -35,15 +35,16 @@
                         {
                             data: [
                                 {
-                                    value: consumoSemanal,
-                                    itemStyle: {
-                                        color: '#67DF5F'
-                                    }
-                                },
-                                {
                                     value: totalAnterior,
                                     itemStyle: {
                                         color: 'skyblue'
+                                    }
+                                },
+                                {
+                                    value: consumoSemanal,
+
+                                    itemStyle: {
+                                        color: '#67DF5F'
                                     }
                                 }
                             ],
