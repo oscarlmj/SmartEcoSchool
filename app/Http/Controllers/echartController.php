@@ -15,23 +15,23 @@ class echartController extends Controller
     public function waterWeek()
     {
         $viewData["title"] = "Consumo de agua semanal"; // Título de la página
-        
+
         //Recuperar el primer y último registro de la semana pasada para calcular el consumo de agua.
-            $primerRegistroSemana = Measurement::where('id_sensor', 2)
-                ->whereDate('fecha', now()->subWeek()->startOfWeek())
-                ->orderBy('fecha', 'asc')
-                ->latest()
-                ->value('consumo');
+        $primerRegistroSemana = Measurement::where('id_sensor', 2)
+            ->whereDate('fecha', now()->subWeek()->startOfWeek())
+            ->orderBy('fecha', 'asc')
+            ->latest()
+            ->value('consumo');
 
 
-            $ultimoRegistroSemana = Measurement::where('id_sensor', 2)
-                ->whereDate('fecha', now()->subWeek()->endOfWeek())
-                ->orderBy('fecha', 'desc')
-                ->latest()
-                ->value('consumo');
+        $ultimoRegistroSemana = Measurement::where('id_sensor', 2)
+            ->whereDate('fecha', now()->subWeek()->endOfWeek())
+            ->orderBy('fecha', 'desc')
+            ->latest()
+            ->value('consumo');
 
 
-            $viewData["semanaAnterior"] = $ultimoRegistroSemana - $primerRegistroSemana;
+        $viewData["semanaAnterior"] = $ultimoRegistroSemana - $primerRegistroSemana;
 
         // Obtener el primer registro de la semana actual para calcular el consumo de agua de hoy
         $primerRegistroSemana = Measurement::where('id_sensor', 2)
@@ -60,32 +60,116 @@ class echartController extends Controller
         } else {
             $viewData["consumoSemanal"] = $primerRegistroSemana - $ultimoRegistroSemana;
         }
-                    
+
         return view('charts.water')->with("viewData", $viewData);
     }
 
     //Funcion para recoger y mostrar el consumo de agua mensual.
     public function waterMonth()
     {
-        $viewData["title"] = "Consumo eléctrico";
-    $viewData["week"] = [];
+        $viewData["title"] = "Consumo de agua mensual"; // Título de la página
 
-    // Cambio: Recuperar el consumo eléctrico del día 15 de febrero de 2023 por hora
-    $consumoElectricosFeb = Measurement::where('id_sensor', 1)
-        ->whereDate('fecha', '2023-02-14')
-        ->orderBy('fecha', 'asc')
-        ->get(['fecha', 'consumo']);
+        //Recuperar el primer y último registro del mes pasado para calcular el consumo de agua.
+        $firstInputLastMonth = Measurement::where('id_sensor', 2)
+            ->whereMonth('fecha', now()->subMonth()->month)
+            ->whereYear('fecha', now()->subMonth()->year)
+            ->orderBy('fecha', 'asc')
+            ->value('consumo');
 
-    // Convierte los datos al formato adecuado para ECharts
-    $data = [];
-    foreach ($consumoElectricosFeb as $consumoElectrico) {
-        // Cambio: Usar formato 'H:i' para mostrar horas y minutos
-        $data[] = [$consumoElectrico->fecha->format('H:i'), $consumoElectrico->consumo];
+        $lastInputLastMonth = Measurement::where('id_sensor', 2)
+            ->whereMonth('fecha', now()->subMonth()->month)
+            ->whereYear('fecha', now()->subMonth()->year)
+            ->orderBy('fecha', 'desc')
+            ->latest()
+            ->value('consumo');
+
+        $viewData["lastMonth"] = $lastInputLastMonth - $firstInputLastMonth;
+
+        //Recuperar el primer y último registro del mes actual para calcular el consumo de agua.
+        $firstInputCurrentMonth = Measurement::where('id_sensor', 2)
+            ->whereMonth('fecha', now()->month)
+            ->whereYear('fecha', now()->year)
+            ->orderBy('fecha', 'asc')
+            ->value('consumo');
+
+        $lastInputCurrentMonth = Measurement::where('id_sensor', 2)
+            ->whereDate('fecha', now())
+            ->orderBy('fecha', 'desc')
+            ->latest()
+            ->value('consumo');
+
+        $viewData["currentMonth"] = $lastInputCurrentMonth - $firstInputCurrentMonth;
+
+        $viewData["lastMonthName"] = now()->subMonth()->locale('es')->monthName;
+        $viewData["currentMonthName"] = now()->locale('es')->monthName;
+
+        return view('charts.waterMonth')->with("viewData", $viewData);
     }
 
-    $viewData["data"] = $data;
+    public function electrical()
+    {
+        $viewData["title"] = "Consumo eléctrico";
 
-    return view('charts.electrical')->with("viewData", $viewData);
+        // Obtener el consumo eléctrico del día anterior
+        $consumoElectricoAyer = Measurement::where('id_sensor', 1)
+            ->whereDate('fecha', now()->subDay())
+            ->orderBy('fecha', 'desc')
+            ->value('consumo');
 
+        // Obtener el consumo eléctrico del día actual
+        $consumoElectricoHoy = Measurement::where('id_sensor', 1)
+            ->whereDate('fecha', now())
+            ->orderBy('fecha', 'desc')
+            ->value('consumo');
+
+        // Nombre del dia actual y anterior
+        $viewData["nombreDiaActual"] = now()->subDay()->locale('es')->dayName;
+        $viewData["nombreDiaAnterior"] = now()->locale('es')->dayName;
+
+        // Pasar los datos al view
+        $viewData["consumoElectricoAyer"] = $consumoElectricoAyer;
+        $viewData["consumoElectricoHoy"] = $consumoElectricoHoy;
+
+        return view('charts.electrical')->with("viewData", $viewData);
+    }
+
+    public function electricalMes()
+    {
+        $viewData["title"] = "Consumo eléctrico";
+
+        // Cambio: Recuperar el consumo eléctrico del mes anterior del primer y ultimo registro del mes
+        $primerConsumoMesAnterior = Measurement::where('id_sensor', 1)
+            ->whereMonth('fecha', now()->subMonth()->month)
+            ->whereYear('fecha', now()->subYear()->year)
+            ->orderBy('fecha', 'asc')
+            ->value('consumo');
+
+        $ultimoConsumoMesAnterior = Measurement::where('id_sensor', 1)
+            ->whereMonth('fecha', now()->subMonth()->month)
+            ->whereYear('fecha', now()->subYear()->year)
+            ->orderBy('fecha', 'desc')
+            ->value('consumo');
+
+        $viewData["mesAnterior"] = $ultimoConsumoMesAnterior - $primerConsumoMesAnterior;
+            
+        // Cambio: Recuperar el consumo eléctrico del mes actual del primer y ultimo registro del mes
+        $primerConsumoMesActual = Measurement::where('id_sensor', 1)
+            ->whereMonth('fecha', now()->month)
+            ->whereYear('fecha', now()->year)
+            ->orderBy('fecha', 'asc')
+            ->value('consumo');
+
+        $ultimoConsumoMesActual = Measurement::where('id_sensor', 1)
+            ->whereMonth('fecha', now()->month)
+            ->whereYear('fecha', now()->year)
+            ->orderBy('fecha', 'desc')
+            ->value('consumo');
+
+        $viewData["mesActual"] = $ultimoConsumoMesActual - $primerConsumoMesActual;
+
+        $viewData["nombreMesActual"] = now()->subMonth()->locale('es')->monthName;
+        $viewData["nombreMesAnterior"] = now()->locale('es')->monthName;
+
+        return view('charts.electricalMes')->with("viewData", $viewData);
     }
 }
