@@ -12,9 +12,9 @@ use Exception;
 class echartController extends Controller
 {
 
-    public function water()
+    public function waterWeek()
     {
-        $viewData["title"] = "Consumo de agua"; // Título de la página
+        $viewData["title"] = "Consumo de agua semanal"; // Título de la página
         
         //Recuperar el primer y último registro de la semana pasada para calcular el consumo de agua.
             $primerRegistroSemana = Measurement::where('id_sensor', 2)
@@ -62,5 +62,47 @@ class echartController extends Controller
         }
                     
         return view('charts.water')->with("viewData", $viewData);
-        }
     }
+
+    //Funcion para recoger y mostrar el consumo de agua mensual.
+    public function waterMonth()
+    {
+        $viewData["title"] = "Consumo de agua mensual"; // Título de la página
+
+        //Recuperar el primer y último registro del mes pasado para calcular el consumo de agua.
+            $firstInputLastMonth = Measurement::where('id_sensor', 2)
+                ->whereMonth('fecha', now()->subMonth()->month)
+                ->whereYear('fecha', now()->subMonth()->year)
+                ->orderBy('fecha', 'asc')
+                ->value('consumo');
+
+            $lastInputLastMonth = Measurement::where('id_sensor', 2)
+                ->whereMonth('fecha', now()->subMonth()->month)
+                ->whereYear('fecha', now()->subMonth()->year)
+                ->orderBy('fecha', 'desc')
+                ->latest()
+                ->value('consumo');
+
+            $viewData["lastMonth"] = $lastInputLastMonth - $firstInputLastMonth;
+
+        //Recuperar el primer y último registro del mes actual para calcular el consumo de agua.
+            $firstInputCurrentMonth = Measurement::where('id_sensor', 2)
+                ->whereMonth('fecha', now()->month)
+                ->whereYear('fecha', now()->year)
+                ->orderBy('fecha', 'asc')
+                ->value('consumo');
+
+            $lastInputCurrentMonth = Measurement::where('id_sensor', 2)
+                ->whereDate('fecha', now())
+                ->orderBy('fecha', 'desc')
+                ->latest()
+                ->value('consumo');
+
+                $viewData["currentMonth"] = $lastInputCurrentMonth - $firstInputCurrentMonth;
+
+                $viewData["lastMonthName"] = now()->subMonth()->locale('es')->monthName;
+                $viewData["currentMonthName"] = now()->locale('es')->monthName;
+
+        return view('charts.waterMonth')->with("viewData", $viewData);
+    }
+}
