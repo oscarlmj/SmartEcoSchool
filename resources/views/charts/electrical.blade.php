@@ -6,47 +6,106 @@
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
 
     <div id="main">
+    <div id="clock"></div>
       <div id="dia" style="width: 100%; height: 600px;"></div>
     </div>
 
     <script type="text/javascript">
+      setInterval(function() {
+        let actualMoment = new Date();
+        let date = actualMoment.toLocaleDateString();
+        let hour = actualMoment.getHours();
+        let minute = String(actualMoment.getMinutes()).padStart(2, '0');
+        let secund = String(actualMoment.getSeconds()).padStart(2, '0');
+        let actualTime = hour + ":" + minute + ":" + secund;
+        let actualDateTime = date + " " + actualTime;
+        document.getElementById('clock').innerHTML = actualDateTime;
+      }, 1000);
+
+      setInterval(function() {
+                    window.location.replace("http://localhost:8000/electricalmes");
+                },  14000);
+
       // Obtén los datos reales del controlador
       const consumoElectricoAyer = <?php echo json_encode($viewData['consumoElectricoAyer']); ?>;
       const consumoElectricoHoy = <?php echo json_encode($viewData['consumoElectricoHoy']); ?>;
       const chartNombreDiaAnterior = <?php echo json_encode($viewData["nombreDiaAnterior"]); ?>;
       const chartNombreDiaActual = <?php echo json_encode($viewData["nombreDiaActual"]); ?>;
+      const consumosAnteriores = <?php echo json_encode($viewData['consumoSemanal']); ?>;
 
-      setInterval(function() {
-                window.location.replace("http://localhost:8000/electricalmes");
-                },  14000);
-
-      let option = {
+      console.log(consumosAnteriores);
+      option = {
         xAxis: {
           type: 'category',
-          data: [chartNombreDiaAnterior, chartNombreDiaActual]
+          data: <?php echo json_encode(array_merge($viewData['dayNames'], ['Media semanal'])); ?>
         },
         yAxis: {
           type: 'value'
         },
-        series: [{
-          data: [
-            {
-              value:consumoElectricoAyer,
-              itemStyle: {
-                color: 'red'
-              }
+        series: [
+          {
+            data: [
+              {
+                value: consumosAnteriores[0],
+                itemStyle: {
+                  color: '#67DF5F'
+                }
+              },
+              {
+                value: consumosAnteriores[1],
+                itemStyle: {
+                  color: '#67DF5F'
+                }
+              },
+              {
+                value: consumosAnteriores[2],
+                itemStyle: {
+                  color: '#67DF5F'
+                }
+              },
+              {
+                value: consumosAnteriores[3],
+                itemStyle: {
+                  color: '#67DF5F'
+                }
+              },
+              {
+                value: consumosAnteriores[4],
+                itemStyle: {
+                  color: '#67DF5F'
+                }
+              },
+              {
+                value: consumosAnteriores[5],
+                itemStyle: {
+                  color: '#67DF5F'
+                }
+              },
+              {
+                value: consumoElectricoHoy,
+                itemStyle: {
+                  color: 'skyblue'
+                }
+              },
+              {
+                value: 16780,
+                itemStyle: {
+                  color: 'skyblue'
+                }
+              },
+            ],
+            type: 'bar',
+            showBackground: true,
+            backgroundStyle: {
+              color: 'rgba(180, 180, 180, 0.2)'
             },
-            {
-              value:consumoElectricoHoy
+            label: {
+              show: true,
+              position: 'inside',
+              formatter: '{c} m3'
             }
-          ],
-          type: 'bar',
-          label: {
-                                show: true,
-                                position: 'inside',
-                                formatter: '{c} kw/h'
-                            }
-        }]
+          }
+        ]
       };
 
       // Inicializar la instancia de ECharts con el elemento DOM
